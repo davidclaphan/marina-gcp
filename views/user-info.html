@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>User Info</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <h1>User Information</h1>
+        <ul id="userInfoList"></ul>
+        <script>
+        // Fetch user information and display it as an ordered list
+            fetch('/getUserData')
+            .then(response => response.json())
+            .then(data => {
+                const userInfoList = document.getElementById('userInfoList');
+                Object.keys(data).forEach(key => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${key}: ${data[key]}`;
+                userInfoList.appendChild(listItem);
+            });
+            })
+            .catch(error => {
+                console.error('Error fetching user info:', error);
+            });
+        </script>
+
+        <button onclick="redirectToLogout()">Logout</button>
+        <script>
+            function redirectToLogout() {
+                window.location.href = 'https://hw7-claphand.wl.r.appspot.com/logout';
+            }
+        </script>
+    </body>
+</html>
