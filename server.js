@@ -24,7 +24,7 @@ const DOMAIN = 'dev-j7os5d7uf88tjkip.us.auth0.com';
 const config = {
     authRequired: false,
     auth0Logout: true,
-    baseURL: 'https://hw7-claphand.wl.r.appspot.com',
+    baseURL: 'https://portfolio-claphand.wl.r.appspot.com',
     clientID: `${CLIENT_ID}`,
     issuerBaseURL: `https://${DOMAIN}`,
     secret: `${CLIENT_SECRET}`
@@ -351,8 +351,8 @@ router.delete('/boats/:boat_id', checkJwt, function(req, res) {
 
 /* ------------- Begin Controller Functions SLIP API ------------- */
 router.post('/slips', function (req, res) {
-    if (req.body.number === undefined) {
-        res.status(400).json({ 'Error': 'The request object is missing the required number' }).end();
+    if (req.body.number === undefined || req.body.length === undefined || req.body.premium === undefined) {
+        res.status(400).json({ 'Error': 'The request object is missing at least one of the required attributes' }).end();
     } else {
         post_slip(req.body.number, req.body.current_boat, req.body.length, req.body.premium)
         .then(key => { 
