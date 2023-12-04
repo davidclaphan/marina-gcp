@@ -18,6 +18,28 @@
                 listItem.textContent = `${key}: ${data[key]}`;
                 userInfoList.appendChild(listItem);
             });
+
+            // POST to /users to add new users to database
+            fetch('/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    sub: data.sub,
+                    name: data.name
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('User data sent successfully');
+                } else {
+                    console.error('Failed to send user data');
+                }
+                })
+            .catch(error => {
+                console.error('Error sending user data:', error);
+                });
             })
             .catch(error => {
                 console.error('Error fetching user info:', error);

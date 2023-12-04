@@ -54,9 +54,9 @@ const checkJwt = jwt({
   });
 
 /* ------------- Begin Model Functions ------------- */
-function post_boat(name, type, length, owner, slip=null, public=true){
+function post_boat(name, type, length, owner, slip=null){
     var key = datastore.key(BOAT);
-	const new_boat = {"name": name, "type": type, "length": length, "owner": owner, "slip": slip, "public": public};
+	const new_boat = { "name": name, "type": type, "length": length, "owner": owner, "slip": slip };
 	return datastore.save({"key":key, "data":new_boat}).then(() => {return key});
 }
 
@@ -89,9 +89,9 @@ function get_boat_names() {
     });
 }
 
-function put_boat(id, name, type, length, owner, slip, public=true) {
+function put_boat(id, name, type, length, owner, slip) {
     const key = datastore.key([BOAT, parseInt(id, 10)]);
-    const boat = { "name": name, "type": type, "length": length, "owner": owner, "slip": slip, "public": public,  };
+    const boat = { "name": name, "type": type, "length": length, "owner": owner, "slip": slip };
     return datastore.save({ "key": key, "data": boat }).then(() => { return key });
 }
 
@@ -136,6 +136,32 @@ function delete_slip(id) {
     return datastore.delete(key);
 }
 
+/************* USER FUNCTIONS ********************/ 
+function post_user(name, sub) {
+    var key = datastore.key(USER);
+    const new_user = { "name": name, "sub": sub };
+    return datastore.save({ "key": key, "data": new_user }).then(() => { return key });
+}
+
+function get_users() {
+    const q = datastore.createQuery(USER);
+    return datastore.runQuery(q).then((entities) => {
+        let users = []
+        for (let x in entities[0]) {
+            users.push(entities[0][x].sub)
+        }
+        return users;
+    });
+}
+
+function get_users_and_names() {
+    const q = datastore.createQuery(USER);
+    return datastore.runQuery(q).then((entities) => {
+        return entities[0].map(fromDatastore);
+    });
+}
+
+
 /* ------------- End Model Functions ------------- */
 
 /* ------------- Begin Auth0 Functions ------------- */
@@ -157,7 +183,26 @@ app.get('/getUserData', (req, res) => {
         JTW: req.oidc.idToken
     }
     res.json(userInfo);
-  });
+});
+
+app.post('/users', function(req, res){
+    get_users()
+    .then(users => {
+        const user = req.body.sub
+        if (users.includes(user)){
+            res.status(204)
+        } else {
+            post_user(req.body.name, user)
+        }
+    });
+});
+
+app.get('/users', function(req, res){
+    get_users_and_names()
+    .then( users => {
+        res.status(200).json(users);
+    });
+});
 /* ------------- End Auth0 Functions ------------- */
 
 
@@ -170,7 +215,7 @@ router.get('/boats', checkJwt, function(req, res){
 	    .then( (boats) => {
             res.status(200).json(boats);
         });
-    };
+    }
 });
 
 router.post('/boats', checkJwt, function(req, res){
@@ -204,9 +249,9 @@ router.post('/boats', checkJwt, function(req, res){
                     res.location(req.protocol + "://" + req.get('host') + req.baseUrl + '/' + key.id);
                     res.status(201).json(boat_res);
                 } );
-            };
+            }
         });
-    };
+    }
 });
 
 // PATCH all Boats NOT ALLOWED
@@ -261,7 +306,7 @@ router.put('/boats/:boat_id', checkJwt, function (req, res) {
                 });
             }
         });
-    };
+    }
 });
 
 // Edit some or all attributes for a Boat
@@ -324,7 +369,7 @@ router.patch('/boats/:boat_id', checkJwt, function (req, res) {
                 });
             }}
         );
-    };
+    }
 });
 
 
