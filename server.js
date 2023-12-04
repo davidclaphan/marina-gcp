@@ -54,6 +54,8 @@ const checkJwt = jwt({
   });
 
 /* ------------- Begin Model Functions ------------- */
+
+/******************** BOATS FUNCTIONS ********************/
 function post_boat(name, type, length, owner, slip=null){
     var key = datastore.key(BOAT);
 	const new_boat = { "name": name, "type": type, "length": length, "owner": owner, "slip": slip };
@@ -100,7 +102,7 @@ function delete_boat(id) {
     return datastore.delete(key);
 }
 
-/**************************************SLIPS FUNCTIONS ***********************************/
+/******************** SLIPS FUNCTIONS ********************/
 function post_slip(number, current_boat=null, length, premium) {
     var key = datastore.key(SLIP);
     const new_slip = { "number": number, "current_boat": current_boat, "length": length, "premium": premium };
@@ -136,7 +138,7 @@ function delete_slip(id) {
     return datastore.delete(key);
 }
 
-/************* USER FUNCTIONS ********************/ 
+/******************** USERS FUNCTIONS ********************/ 
 function post_user(name, sub) {
     var key = datastore.key(USER);
     const new_user = { "name": name, "sub": sub };
@@ -160,11 +162,9 @@ function get_users_and_names() {
         return entities[0].map(fromDatastore);
     });
 }
-
-
 /* ------------- End Model Functions ------------- */
 
-/* ------------- Begin Auth0 Functions ------------- */
+/* ------------- Begin Auth0 & User Functions ------------- */
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'welcome.html'));
   });
@@ -203,10 +203,10 @@ app.get('/users', function(req, res){
         res.status(200).json(users);
     });
 });
-/* ------------- End Auth0 Functions ------------- */
+/* ------------- End Auth0 & User Functions ------------- */
 
 
-/* ------------- Begin Controller Functions BOAT API ------------- */
+/* ------------- Begin Controller Functions ------------- */
 router.get('/boats', checkJwt, function(req, res){
     if (req.user === undefined) {
         res.status(401).json({'Error': 'missing or invalid JWT'})
@@ -254,25 +254,21 @@ router.post('/boats', checkJwt, function(req, res){
     }
 });
 
-// PATCH all Boats NOT ALLOWED
 router.patch('/boats', function (req, res) {
     res.set('Accept', 'GET, POST');
     res.status(405).end();
 });
 
-// PUT all Boats NOT ALLOWED
 router.put('/boats', function (req, res) {
     res.set('Accept', 'GET, POST');
     res.status(405).end();
 });
 
-// DELETE all Boats NOT ALLOWED
 router.delete('/boats', function (req, res) {
     res.set('Accept', 'GET, POST');
     res.status(405).end();
 });
 
-// Edit all attributes for a Boat
 router.put('/boats/:boat_id', checkJwt, function (req, res) {
     if(req.get('content-type') !== 'application/json'){
         res.status(415).send('Server only accepts application/json data.')
@@ -309,7 +305,6 @@ router.put('/boats/:boat_id', checkJwt, function (req, res) {
     }
 });
 
-// Edit some or all attributes for a Boat
 router.patch('/boats/:boat_id', checkJwt, function (req, res) {
     if(req.get('content-type') !== 'application/json'){
         res.status(415).send('Server only accepts application/json data.')
@@ -372,7 +367,6 @@ router.patch('/boats/:boat_id', checkJwt, function (req, res) {
     }
 });
 
-
 router.delete('/boats/:boat_id', checkJwt, function(req, res) {
     if (req.user === undefined) {
         res.status(401).json({'Error': 'missing or invalid JWT'})
@@ -391,11 +385,7 @@ router.delete('/boats/:boat_id', checkJwt, function(req, res) {
         });
     };
 });
-/* ------------- End Controller Functions BOAT API ------------- */
 
-
-
-/* ------------- Begin Controller Functions SLIP API ------------- */
 router.post('/slips', function (req, res) {
     if (req.body.number === undefined || req.body.length === undefined || req.body.premium === undefined) {
         res.status(400).json({ 'Error': 'The request object is missing at least one of the required attributes' }).end();
@@ -415,7 +405,6 @@ router.post('/slips', function (req, res) {
     }
 });
 
-// Get a Slip
 router.get('/slips/:slip_id', function (req, res) {
     get_slip(req.params.slip_id)
     .then(slip => {
@@ -435,7 +424,6 @@ router.get('/slips/:slip_id', function (req, res) {
     });
 });
 
-// List all Slips
 router.get('/slips', function (req, res) {
     const slips = get_slips()
         .then((slips) => {
@@ -443,7 +431,6 @@ router.get('/slips', function (req, res) {
         });
 });
 
-// Edit All attributes for a Slip
 router.put('/slips/:slip_id', function (req, res) {
     if (req.params.slip_id === undefined || req.params.slip_id === null) {
         res.status(400).json({ 'Error': 'slip_id is required for PATCH'})
@@ -475,8 +462,6 @@ router.put('/slips/:slip_id', function (req, res) {
     };
 });
 
-
-// Edit some or all attributes for a Slip
 router.patch('/slips/:slip_id', function (req, res) {
     const accepts = req.accepts('application/json')
     if (accepts !== 'application/json') {
@@ -528,7 +513,6 @@ router.patch('/slips/:slip_id', function (req, res) {
     }}
 );
 
-// Delete a Slip
 router.delete('/slips/:slip_id', function (req, res) {
     get_slip(req.params.slip_id)
     .then(slip => {
@@ -583,7 +567,7 @@ router.delete('/slips/:slip_id/:boat_id', function (req, res) {
         }
     });
 });
-/* ------------- End Controller Functions SLIP API ------------- */
+/* ------------- End Controller Functions ------------- */
 
 app.use('/', router);
 app.enable('trust proxy');
