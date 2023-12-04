@@ -529,16 +529,20 @@ router.put('/slips/:slip_id/:boat_id', function (req, res) {
     get_slip(req.params.slip_id)
     .then(slip => {
         if (slip[0] === undefined || slip[0] === null) {
-            res.status(404).json({ 'Error': 'The specified boat and/or slip does not exist' }); 
+            res.status(404).json({ 'Error': 'No slip with this slip_id exists' }); 
         } else {
             get_boat(req.params.boat_id)
             .then(boat => {
                 if (boat[0] === undefined || boat[0] === null) {
-                    res.status(404).json({ 'Error': 'The specified boat and/or slip does not exist' }); 
+                    res.status(404).json({ 'Error': 'No boat with this boat_id exists' }); 
                 } else if (slip[0].current_boat !== null) {
                     res.status(403).json({ 'Error': 'The slip is not empty'});
+                } else if (slip[0].length < boat[0].length) {
+                    res.status(403).json({ 'Error': 'The slip is not large enough for this boat'});
                 } else {
-                    put_slip(parseInt(req.params.slip_id), parseInt(slip[0].number), parseInt(req.params.boat_id)).then(res.status(204).end());
+                    put_slip(parseInt(req.params.slip_id), parseInt(slip[0].number), boat[0].name, parseInt(slip[0].length), slip[0].premium)
+                    put_boat(parseInt(req.params.boat_id), boat[0].name, boat[0].type, boat[0].length, boat[0].owner, slip[0].number)
+                    .then(res.status(204).end());
                 }
             });
         }       
@@ -550,7 +554,7 @@ router.delete('/slips/:slip_id/:boat_id', function (req, res) {
     get_boat(req.params.boat_id)
     .then(boat => {
         if (boat[0] === undefined || boat[0] === null) {
-            res.status(404).json({ 'Error': 'No boat with this boat_id is at the slip with this slip_id' });
+            res.status(404).json({ 'Error': 'No boat with this boat_id exists' });
         } else {
             get_slip(req.params.slip_id)
             .then(slip => {
@@ -558,10 +562,13 @@ router.delete('/slips/:slip_id/:boat_id', function (req, res) {
                     res.status(404).json({ 'Error': 'No slip with this slip_id exists' }); 
                 } else if (slip[0].current_boat === null) {
                     res.status(404).json({ 'Error': 'The slip is already empty'});
-                } else if (parseInt(slip[0].current_boat) !== parseInt(boat[0].id)) {
+                } else if (parseInt(slip[0].number) !== parseInt(boat[0].slip)) {
                     res.status(404).json({ 'Error': 'No boat with this boat_id is at the slip with this slip_id'});
                 } else {
-                    put_slip(parseInt(req.params.slip_id), parseInt(slip[0].number), null).then(res.status(204).end());
+                    put_slip(parseInt(req.params.slip_id), parseInt(slip[0].number), null, parseInt(slip[0].length), slip[0].premium)
+                    put_boat(parseInt(req.params.boat_id), boat[0].name, boat[0].type, boat[0].length, boat[0].owner, null)
+                    .then(res.status(204).end());
+
                 }
             });
         }
