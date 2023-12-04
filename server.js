@@ -254,7 +254,7 @@ router.put('/boats/:boat_id', checkJwt, function (req, res) {
                     if (boat_names.includes(req.body.name.toLowerCase())) {
                         res.status(403).json({ 'Error': 'Boat with this name already exists' }).end();
                     } else {
-                        put_boat(req.params.boat_id, req.body.name, req.body.type, req.body.length, request.user.sub, boat[0].slip)
+                        put_boat(req.params.boat_id, req.body.name, req.body.type, req.body.length, req.user.sub, boat[0].slip)
                         res.set("Location", req.protocol + "://" + req.get("host") + "/boats/" + boat[0].id);
                         res.status(303).end(); 
                     }
@@ -296,6 +296,7 @@ router.patch('/boats/:boat_id', checkJwt, function (req, res) {
                         let name = boat[0].name
                         let type = boat[0].type
                         let length = boat[0].length
+                        let owner = boat[0].owner
             
                         if (req.body.name !== undefined) {
                             name = req.body.name
@@ -399,30 +400,34 @@ router.get('/slips', function (req, res) {
 
 // Edit All attributes for a Slip
 router.put('/slips/:slip_id', function (req, res) {
-    get_slip(req.params.slip_id)
-    .then(slip => {
-        const accepts = req.accepts('application/json')
-        if (accepts !== 'application/json') {
-            res.status(406).send('MIME Not Acceptable, application/json only')
-        } else if (slip[0] === undefined || slip[0] === null) {
-            res.status(404).json({ 'Error': 'A slip with that slip_id does not exist' }); 
-        } else if (req.body.number === undefined || req.body.length == undefined || req.body.premium === undefined) {
-            res.status(400).json({ 'Error': 'The request object is missing at least one of the required attributes' })
-        } else if (typeof(req.body.number) !== 'number' || typeof(req.body.length) !== 'number' || typeof(req.body.premium) !== 'boolean') {
-            res.status(400).json({ 'Error': 'Data in request object incorrect type. Expected {"number": number, "length": number, "length": boolean'});
-        } else {
-            const slip_res = {
-                id: parseInt(req.params.slip_id),
-                number: parseInt(req.body.number),
-                current_boat: slip[0].current_boat,
-                length: parseInt(req.body.length),
-                premium: req.body.premium,
-                self: req.protocol + "://" + req.get("host") + "/slips/" + req.params.slip_id
-            }
-            put_slip(req.params.slip_id, req.body.number, slip[0].current_boat, req.body.length, req.body.premium)
-            res.status(200).json(slip_res)
-        };       
-    });
+    if (req.params.slip_id === undefined || req.params.slip_id === null) {
+        res.status(400).json({ 'Error': 'slip_id is required for PATCH'})
+    } else {
+        get_slip(req.params.slip_id)
+        .then(slip => {
+            const accepts = req.accepts('application/json')
+            if (accepts !== 'application/json') {
+                res.status(406).send('MIME Not Acceptable, application/json only')
+            } else if (slip[0] === undefined || slip[0] === null) {
+                res.status(404).json({ 'Error': 'A slip with that slip_id does not exist' }); 
+            } else if (req.body.number === undefined || req.body.length == undefined || req.body.premium === undefined) {
+                res.status(400).json({ 'Error': 'The request object is missing at least one of the required attributes' })
+            } else if (typeof(req.body.number) !== 'number' || typeof(req.body.length) !== 'number' || typeof(req.body.premium) !== 'boolean') {
+                res.status(400).json({ 'Error': 'Data in request object incorrect type. Expected {"number": number, "length": number, "length": boolean'});
+            } else {
+                const slip_res = {
+                    id: parseInt(req.params.slip_id),
+                    number: parseInt(req.body.number),
+                    current_boat: slip[0].current_boat,
+                    length: parseInt(req.body.length),
+                    premium: req.body.premium,
+                    self: req.protocol + "://" + req.get("host") + "/slips/" + req.params.slip_id
+                }
+                put_slip(req.params.slip_id, req.body.number, slip[0].current_boat, req.body.length, req.body.premium)
+                res.status(200).json(slip_res)
+            };       
+        });
+    };
 });
 
 
@@ -433,25 +438,27 @@ router.patch('/slips/:slip_id', function (req, res) {
         res.status(406).send('MIME Not Acceptable, application/json only')
     } else if (req.get('Content-Type') !== 'application/json') {
         res.status(415).json({ 'Error': 'The request object must be JSON format' })
+    } else if (req.params.slip_id === undefined || req.params.slip_id === null) {
+        res.status(400).json({ 'Error': 'slip_id is required for PATCH'})
     } else {
         get_slip(req.params.slip_id)
         .then(slip => {
             if (slip[0] === undefined || slip[0] === null) {
-            res.status(404).json({ 'Error': 'A slip with that slip_id does not exist' }); 
+                res.status(404).json({ 'Error': 'A slip with that slip_id does not exist' }); 
             } else if (req.body.number !== undefined && typeof(req.body.number) !== 'number') {
                 res.status(400).json({ 'Error': 'Data in request object incorrect type. Expected name to be string'});
             } else if (req.body.length !== undefined && typeof(req.body.length) !== 'number') {
                 res.status(400).json({ 'Error': 'Data in request object incorrect type. Expected length to be number'});
-            } else if (req.body.premium !== undefined && typeof(req.body.premium) !== 'string') {
-                res.status(400).json({ 'Error': 'Data in request object incorrect type. Expected type to be string'});
+            } else if (req.body.premium !== undefined && typeof(req.body.premium) !== 'boolean') {
+                res.status(400).json({ 'Error': 'Data in request object incorrect type. Expected type to be boolean'});
             } else {
-                let name = slip[0].number
+                let number = slip[0].number
                 let current_boat = slip[0].current_boat
                 let length = slip[0].length
                 let premium = slip[0].premium
     
                 if (req.body.number !== undefined) {
-                    name = req.body.number
+                    number = req.body.number
                 }
                 if (req.body.length !== undefined) {
                     length = req.body.length
@@ -468,7 +475,7 @@ router.patch('/slips/:slip_id', function (req, res) {
                     premium: premium,
                     self: req.protocol + "://" + req.get("host") + "/slips/" + req.params.slip_id
                 };
-                put_boat(req.params.boat_id, name, type, length, owner, boat[0].slip)
+                put_slip(req.params.slip_id, number, current_boat, length, premium)
                 res.set("Location", req.protocol + "://" + req.get("host") + "/slips/" + slip[0].id);
                 res.status(200).json(slip_res); 
             }
