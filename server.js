@@ -219,9 +219,6 @@ router.get('/boats', checkJwt, function(req, res){
 });
 
 router.post('/boats', checkJwt, function(req, res){
-    if(req.get('content-type') !== 'application/json'){
-        res.status(415).send('Server only accepts application/json data.')
-    }
     if (req.user === undefined) {
         res.status(401).json({'Error': 'missing or invalid JWT'})
     } else if (req.body.name === undefined || req.body.type == undefined || req.body.length === undefined) {
@@ -270,9 +267,6 @@ router.delete('/boats', function (req, res) {
 });
 
 router.put('/boats/:boat_id', checkJwt, function (req, res) {
-    if(req.get('content-type') !== 'application/json'){
-        res.status(415).send('Server only accepts application/json data.')
-    }
     if (req.user === undefined) {
         res.status(401).json({'Error': 'missing or invalid JWT'})
     } else {
@@ -296,8 +290,17 @@ router.put('/boats/:boat_id', checkJwt, function (req, res) {
                         res.status(403).json({ 'Error': 'Boat with this name already exists' }).end();
                     } else {
                         put_boat(req.params.boat_id, req.body.name, req.body.type, req.body.length, req.user.sub, boat[0].slip)
+                        const boat_res = {
+                            id: parseInt(req.params.boat_id),
+                            name: req.body.name,
+                            type: req.body.type,
+                            length: req.body.length,
+                            owner: req.user.sub,
+                            slip: boat[0].slip,
+                            self: req.protocol + "://" + req.get("host") + "/boats/" + parseInt(req.params.boat_id)
+                        }
                         res.set("Location", req.protocol + "://" + req.get("host") + "/boats/" + boat[0].id);
-                        res.status(303).end(); 
+                        res.status(200).json(boat_res).end(); 
                     }
                 });
             }
@@ -306,9 +309,6 @@ router.put('/boats/:boat_id', checkJwt, function (req, res) {
 });
 
 router.patch('/boats/:boat_id', checkJwt, function (req, res) {
-    if(req.get('content-type') !== 'application/json'){
-        res.status(415).send('Server only accepts application/json data.')
-    }
     if (req.user === undefined) {
         res.status(401).json({'Error': 'missing or invalid JWT'})
     } else {
@@ -374,7 +374,7 @@ router.delete('/boats/:boat_id', checkJwt, function(req, res) {
         get_boat(req.params.boat_id)
         .then(boat => {
             if (boat[0] === undefined || boat[0] === null) {
-                res.status(403).json({'Error': 'No boat with this boat_id exists'});
+                res.status(404).json({'Error': 'No boat with this boat_id exists'});
             } else if (boat[0].owner !== req.user.sub) {
                 res.status(403).json({'Error': 'This boat_id is owned by a different user'});
             } else if (boat[0].owner === req.user.sub) {
