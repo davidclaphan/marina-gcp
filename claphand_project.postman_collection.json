@@ -1,0 +1,3946 @@
+{
+	"info": {
+		"_postman_id": "4dca8490-7ac2-44c8-87dc-dd26fc45cc36",
+		"name": "claphand_project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30103960"
+	},
+	"item": [
+		{
+			"name": "Create Slip #1 - 201",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"slip_id_1\", pm.response.json()[\"id\"]);\r",
+							"\r",
+							"pm.test(\"201 status code\", function () {\r",
+							"    //Check for 201 status code\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"number\"]).to.eq(1);\r",
+							"   pm.expect(pm.response.json()[\"current_boat\"]).to.eq(null);\r",
+							"   pm.expect(pm.response.json()[\"length\"]).to.eq(28);\r",
+							"   pm.expect(pm.response.json()[\"premium\"]).to.eq(true)\r",
+							"   //Check if the self url is correct\r",
+							"   const self_url = pm.environment.get(\"app-url\") + \"/slips/\" + pm.response.json()[\"id\"];\r",
+							"   pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"number\": 1,\r\n    \"length\": 28,\r\n    \"premium\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/slips",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Slip #2 - 400: missing attribute",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"400 status code\", function () {\r",
+							"    //Check for 400 status code\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"number\": 2,\r\n    \"premium\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/slips",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Slip #2 - 201",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"slip_id_2\", pm.response.json()[\"id\"]);\r",
+							"\r",
+							"pm.test(\"201 status code\", function () {\r",
+							"    //Check for 201 status code\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"number\"]).to.eq(2);\r",
+							"   pm.expect(pm.response.json()[\"current_boat\"]).to.eq(null);\r",
+							"   pm.expect(pm.response.json()[\"length\"]).to.eq(40);\r",
+							"   pm.expect(pm.response.json()[\"premium\"]).to.eq(false)\r",
+							"   //Check if the self url is correct\r",
+							"   const self_url = pm.environment.get(\"app-url\") + \"/slips/\" + pm.response.json()[\"id\"];\r",
+							"   pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"number\": 2,\r\n    \"length\": 40,\r\n    \"premium\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/slips",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Slip #3 - 201",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"slip_id_3\", pm.response.json()[\"id\"]);\r",
+							"\r",
+							"pm.test(\"201 status code\", function () {\r",
+							"    //Check for 201 status code\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"number\"]).to.eq(3);\r",
+							"   pm.expect(pm.response.json()[\"current_boat\"]).to.eq(null);\r",
+							"   pm.expect(pm.response.json()[\"length\"]).to.eq(35);\r",
+							"   pm.expect(pm.response.json()[\"premium\"]).to.eq(true)\r",
+							"   //Check if the self url is correct\r",
+							"   const self_url = pm.environment.get(\"app-url\") + \"/slips/\" + pm.response.json()[\"id\"];\r",
+							"   pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"number\": 3,\r\n    \"length\": 35,\r\n    \"premium\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/slips",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Slip #3 - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for success 200 response code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response format is JSON\", function() {\r",
+							"    //Check if the response content is JSON format\r",
+							"    pm.response.to.have.header(\"Content-Type\")\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"number\"]).to.eq(3);\r",
+							"   pm.expect(pm.response.json()[\"current_boat\"]).to.eq(null);\r",
+							"   pm.expect(pm.response.json()[\"length\"]).to.eq(35);\r",
+							"   pm.expect(pm.response.json()[\"premium\"]).to.eq(true)\r",
+							"   //Check if the self url is correct\r",
+							"   const self_url = pm.environment.get(\"app-url\") + \"/slips/\" + pm.response.json()[\"id\"];\r",
+							"   pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_3}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Invalid Slip - 404: invalid slip_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"404 status code\", function () {\r",
+							"    //Check for 404 response code\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/slips/{{invalid_slip_id}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{invalid_slip_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Slips - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for success 200 response code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/slips",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch All Slips - 405: action not allowed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"405 status code\", function () {\r",
+							"    //Check for 405 status code\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/slips",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put All Slips - 405: action not allowed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"405 status code\", function () {\r",
+							"    //Check for 405 status code\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/slips",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete All Slips - 405: action not allowed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"405 status code\", function () {\r",
+							"    //Check for 405 status code\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/slips",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Boat #1 - 201",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"boat_id_1\", pm.response.json()[\"id\"]);\r",
+							"\r",
+							"pm.test(\"201 status code\", function () {\r",
+							"    //Check for 201 status code\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"name\"]).to.eq(\"A Modest Yacht\");\r",
+							"   pm.expect(pm.response.json()[\"type\"]).to.eq(\"Yacht\");\r",
+							"   pm.expect(pm.response.json()[\"length\"]).to.eq(25);\r",
+							"   //Check if the self url is correct\r",
+							"   const self_url = pm.environment.get(\"app-url\") + \"/boats/\" + pm.response.json()[\"id\"];\r",
+							"   pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"A Modest Yacht\",\r\n    \"type\": \"Yacht\",\r\n    \"length\": 25\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Boat #2 - 406: invalid Accept (text/html)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"406 status code\", function () {\r",
+							"    //Check for 406 status code\r",
+							"    pm.response.to.have.status(406);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "text/html",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"A Modest Yacht\",\r\n    \"type\": \"Yacht\",\r\n    \"length\": 25\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Boat #2 - 201",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"boat_id_2\", pm.response.json()[\"id\"]);\r",
+							"\r",
+							"pm.test(\"201 status code\", function () {\r",
+							"    //Check for 201 status code\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"name\"]).to.eq(\"A Very Large Yacht\");\r",
+							"   pm.expect(pm.response.json()[\"type\"]).to.eq(\"Super Yacht\");\r",
+							"   pm.expect(pm.response.json()[\"length\"]).to.eq(60);\r",
+							"   //Check if the self url is correct\r",
+							"   const self_url = pm.environment.get(\"app-url\") + \"/boats/\" + pm.response.json()[\"id\"];\r",
+							"   pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"A Very Large Yacht\",\r\n    \"type\": \"Super Yacht\",\r\n    \"length\": 60\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Boat #3 - 403: duplicate boat name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"403 status code\", function () {\r",
+							"    //Check for 403 status code\r",
+							"    pm.response.to.have.status(403);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"A Very Large Yacht\",\r\n    \"type\": \"Yacht\",\r\n    \"length\": 35\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Boat #3 - 400: missing attribute",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"400 status code\", function () {\r",
+							"    //Check for 400 status code\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"The High Seas\",\r\n    \"length\": 35\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Boat #3 - 201",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"boat_id_3\", pm.response.json()[\"id\"]);\r",
+							"\r",
+							"pm.test(\"201 status code\", function () {\r",
+							"    //Check for 201 status code\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"name\"]).to.eq(\"The High Seas\");\r",
+							"   pm.expect(pm.response.json()[\"type\"]).to.eq(\"Catamaran\");\r",
+							"   pm.expect(pm.response.json()[\"length\"]).to.eq(35);\r",
+							"   //Check if the self url is correct\r",
+							"   const self_url = pm.environment.get(\"app-url\") + \"/boats/\" + pm.response.json()[\"id\"];\r",
+							"   pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"The High Seas\",\r\n    \"type\": \"Catamaran\",\r\n    \"length\": 35\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "A Second User Creates A Boat - 201",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"alt_user_boat_id\", pm.response.json()[\"id\"]);\r",
+							"\r",
+							"pm.test(\"201 status code\", function () {\r",
+							"    //Check for 201 status code\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"name\"]).to.eq(\"This Boat Belongs to User #2\");\r",
+							"   pm.expect(pm.response.json()[\"type\"]).to.eq(\"Sailboat\");\r",
+							"   pm.expect(pm.response.json()[\"length\"]).to.eq(20);\r",
+							"   //Check if the self url is correct\r",
+							"   const self_url = pm.environment.get(\"app-url\") + \"/boats/\" + pm.response.json()[\"id\"];\r",
+							"   pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{alt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"This Boat Belongs to User #2\",\r\n    \"type\": \"Sailboat\",\r\n    \"length\": 20\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User #1 Tries To Access the Second Users Boat - 403: invalid user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"403 status code\", function () {\r",
+							"    //Check for 403 status code\r",
+							"    pm.response.to.have.status(403);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/boats/{{alt_user_boat_id}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{alt_user_boat_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User #1 Tries To Edit the Second Users Boat Name - 403: invalid user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"403 status code\", function () {\r",
+							"    //Check for 403 status code\r",
+							"    pm.response.to.have.status(403);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"User 1 will steal your boat!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats/{{alt_user_boat_id}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{alt_user_boat_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User #1 Tries To Edit the Second Users Boat Name - 403: invalid user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"403 status code\", function () {\r",
+							"    //Check for 403 status code\r",
+							"    pm.response.to.have.status(403);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"User 1 will steal your boat!\",\r\n    \"type\": \"stolen\",\r\n    \"length\": 100\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats/{{alt_user_boat_id}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{alt_user_boat_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User #1 Tries to Delete the Second User's Boat - 403",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"403 no content\", function () {\r",
+							"    //Check for appropriate 403 code\r",
+							"    pm.response.to.have.status(403);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/boats/{{alt_user_boat_id}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{alt_user_boat_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch All Boats - 405: action not allowed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"405 status code\", function () {\r",
+							"    //Check for 405 status code\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/boats",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put All Boats - 405: action not allowed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"405 status code\", function () {\r",
+							"    //Check for 405 status code\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/boats",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete All Boats - 405: action not allowed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"405 status code\", function () {\r",
+							"    //Check for 405 status code\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/boats",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Boat #2 Name - 406: invalid Accept (text/html)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"406 status code\", function () {\r",
+							"    //Check for 406 status code\r",
+							"    pm.response.to.have.status(406);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "text/html",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Smol Ship\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats/{{boat_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{boat_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Boat #2 Name - 404: invalid boat_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"404 status code\", function () {\r",
+							"    //Check for 404 status code\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Smol Ship\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats/{{invalid_boat_id}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{invalid_boat_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Boat #2 Name - 400: wrong data type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"400 status code\", function () {\r",
+							"    //Check for 400 status code\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": 12345\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats/{{boat_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{boat_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Boat #2 Name - 403: duplicate boat name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"403 status code\", function () {\r",
+							"    //Check for 403 status code\r",
+							"    pm.response.to.have.status(403);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"A Modest Yacht\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats/{{boat_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{boat_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Boat #2 Name - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for 200 status code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response format is JSON\", function() {\r",
+							"    //Check if the response content is JSON format\r",
+							"    pm.response.to.have.header(\"Content-Type\")\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"name\"]).to.eq(\"Smol Ship\");\r",
+							"   pm.expect(pm.response.json()[\"type\"]).to.eq(\"Super Yacht\");\r",
+							"   pm.expect(pm.response.json()[\"length\"]).to.eq(60);\r",
+							"   //Check if the self url is correct\r",
+							"   const self_url = pm.environment.get(\"app-url\") + \"/boats/\" + pm.response.json()[\"id\"];\r",
+							"   pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Smol Ship\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats/{{boat_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{boat_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Boat #2 After Edit - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for 200 status code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"name\"]).to.eq(\"Smol Ship\");\r",
+							"   pm.expect(pm.response.json()[\"type\"]).to.eq(\"Super Yacht\");\r",
+							"   pm.expect(pm.response.json()[\"length\"]).to.eq(60);\r",
+							"   //Check if the self url is correct\r",
+							"   const self_url = pm.environment.get(\"app-url\") + \"/boats/\" + pm.response.json()[\"id\"];\r",
+							"   pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/boats/{{boat_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{boat_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit All Boat #1 Attributes - 400: missing attributes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"400 status code\", function () {\r",
+							"    //Check for 400 status code\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Not Really Modest, Eh?\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats/{{boat_id_1}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{boat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit All Boat #1 Attributes - 406: invalid Accept (text/html)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"406 status code\", function () {\r",
+							"    //Check for 406 status code\r",
+							"    pm.response.to.have.status(406);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "text/html",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Not Really Modest, Eh?\",\r\n    \"type\": \"Super Yacht\",\r\n    \"length\": 28\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats/{{boat_id_1}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{boat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit All Boat #1 Attributes - 404: invalid boat_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"404 status code\", function () {\r",
+							"    //Check for 404 status code\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Not Really Modest, Eh?\",\r\n    \"type\": \"Super Yacht\",\r\n    \"length\": 28\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats/{{invalid_boat_id}}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{invalid_boat_id}}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit All Boat #1 Attributes - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for 200 status code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response format is JSON\", function() {\r",
+							"    //Check if the response content is JSON format\r",
+							"    pm.response.to.have.header(\"Content-Type\")\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"name\"]).to.eq(\"Not Really Modest, Eh?\");\r",
+							"   pm.expect(pm.response.json()[\"type\"]).to.eq(\"Super Yacht\");\r",
+							"   pm.expect(pm.response.json()[\"length\"]).to.eq(28);\r",
+							"   //Check if the self url is correct\r",
+							"   const self_url = pm.environment.get(\"app-url\") + \"/boats/\" + pm.response.json()[\"id\"];\r",
+							"   pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Not Really Modest, Eh?\",\r\n    \"type\": \"Super Yacht\",\r\n    \"length\": 28\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/boats/{{boat_id_1}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{boat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit All Slip #1 Attributes  - 404: invalid slip_id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"404 status code\", function () {\r",
+							"    //Check for 404 response code\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"number\": 1,\r\n    \"length\": 50,\r\n    \"premium\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/slips/{{invalid_slip_id}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{invalid_slip_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit All Slip #1 Attributes  - 406: invalid Accept (text/html)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"406 status code\", function () {\r",
+							"    //Check for 406 response code\r",
+							"    pm.response.to.have.status(406);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "text/html",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"number\": 1,\r\n    \"length\": 50,\r\n    \"premium\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_1}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit All Slip #1 Attributes  - 200",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for success 200 response code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response format is JSON\", function() {\r",
+							"    //Check if the response content is JSON format\r",
+							"    pm.response.to.have.header(\"Content-Type\")\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"number\"]).to.eq(1);\r",
+							"   pm.expect(pm.response.json()[\"current_boat\"]).to.eq(null);\r",
+							"   pm.expect(pm.response.json()[\"length\"]).to.eq(30);\r",
+							"   pm.expect(pm.response.json()[\"premium\"]).to.eq(false)\r",
+							"   //Check if the self url is correct\r",
+							"   const self_url = pm.environment.get(\"app-url\") + \"/slips/\" + pm.response.json()[\"id\"];\r",
+							"   pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"number\": 1,\r\n    \"length\": 30,\r\n    \"premium\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_1}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Boat #1 is not in Slip - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for 200 status code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"confirm slip is null\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"slip\"]).to.eq(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/boats/{{boat_id_1}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{boat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Slip #1 is Empty - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for success 200 response code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"confirm current_boat is null\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"number\"]).to.eq(1);\r",
+							"   pm.expect(pm.response.json()[\"current_boat\"]).to.eq(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_1}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Boat #1 in Slip #1 - 204",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"204 status code\", function () {\r",
+							"    //Check for 204 response code\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_1}}/{{boat_id_1}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_1}}",
+						"{{boat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Boat #1 is in Slip #1 - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for 200 status code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"confirm slip is Slip #1\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"slip\"]).to.eq(pm.environment.get(\"slip_id_1\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/boats/{{boat_id_1}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{boat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Slip #1 Contains Boat #1 - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for success 200 response code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"confirm current_boat is Boat #1\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"current_boat\"]).to.eq(pm.environment.get(\"boat_id_1\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_1}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Boat #2 in Slip #2 - 403: boat too big for slip",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"403 status code\", function () {\r",
+							"    //Check for 403 response code\r",
+							"    pm.response.to.have.status(403);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_2}}/{{boat_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_2}}",
+						"{{boat_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Slip #2 to fit Boat #2 - 404: invalid slip_id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"404 status code\", function () {\r",
+							"    //Check for 404 response code\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"length\": 60\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/slips/{{invalid_slip_id}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{invalid_slip_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Slip #2 to fit Boat #2 - 406: invalid Accept (text/html)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"406 status code\", function () {\r",
+							"    //Check for 406 response code\r",
+							"    pm.response.to.have.status(406);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "text/html",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"length\": 60\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/slips/{{invalid_slip_id}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{invalid_slip_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Slip #2 to fit Boat #2 - 400: wrong data type",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"400 status code\", function () {\r",
+							"    //Check for 400 response code\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"length\": \"60\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Slip #2 to fit Boat #2 - 200",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for 200 response code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response format is JSON\", function() {\r",
+							"    //Check if the response content is JSON format\r",
+							"    pm.response.to.have.header(\"Content-Type\")\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"content is valid & boat #2 will fit now\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"number\"]).to.eq(2);\r",
+							"   pm.expect(pm.response.json()[\"current_boat\"]).to.eq(null);\r",
+							"   pm.expect(pm.response.json()[\"length\"]).to.eq(60);\r",
+							"   pm.expect(pm.response.json()[\"premium\"]).to.eq(false)\r",
+							"   //Check if the self url is correct\r",
+							"   const self_url = pm.environment.get(\"app-url\") + \"/slips/\" + pm.response.json()[\"id\"];\r",
+							"   pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"length\": 60\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Boat #2 in Slip #2 - 404: invalid boat_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"404 status code\", function () {\r",
+							"    //Check for 404 response code\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_2}}/{{invalid_boat_id}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_2}}",
+						"{{invalid_boat_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Boat #2 in Slip #2 - 401: invalid JWT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"401 status code\", function () {\r",
+							"    //Check for 401 response code\r",
+							"    pm.response.to.have.status(401);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{invalid_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_2}}/{{boat_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_2}}",
+						"{{boat_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Boat #2 is not in Slip #2 - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for 200 status code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"confirm slip is null\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"slip\"]).to.eq(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/boats/{{boat_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{boat_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Slip #2 is Empty - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for success 200 response code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"confirm current_boat is null\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"number\"]).to.eq(2);\r",
+							"   pm.expect(pm.response.json()[\"current_boat\"]).to.eq(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Boat #2 in Slip #2 - 204",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"204 status code\", function () {\r",
+							"    //Check for 204 response code\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_2}}/{{boat_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_2}}",
+						"{{boat_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Boat #2 is in Slip #2 - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for 200 status code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"confirm slip is Slip #2\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"slip\"]).to.eq(pm.environment.get(\"slip_id_2\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/boats/{{boat_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{boat_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Slip #2 Contains Boat #2 - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for success 200 response code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"confirm current_boat is Boat #2\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"current_boat\"]).to.eq(pm.environment.get(\"boat_id_2\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "The Second User Tries to Put Boat #3 in Slip #3 - 403: invalid user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"403 status code\", function () {\r",
+							"    //Check for 403 response code\r",
+							"    pm.response.to.have.status(403);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{alt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_3}}/{{boat_id_3}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_3}}",
+						"{{boat_id_3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "The Second User Puts Their Own Boat in Slip #3 - 204",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"204 status code\", function () {\r",
+							"    //Check for 204 response code\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{alt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_3}}/{{alt_user_boat_id}}}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_3}}",
+						"{{alt_user_boat_id}}}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm User #2 Boat is in Slip #3 - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for 200 status code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"confirm slip is Slip #3\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"slip\"]).to.eq(pm.environment.get(\"slip_id_3\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{alt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/boats/{{alt_user_boat_id}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{alt_user_boat_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Slip #3 Contains The Second User's Boat - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for success 200 response code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"confirm current_boat is second users boat\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"current_boat\"]).to.eq(pm.environment.get(\"alt_user_boat_id\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_3}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User #1 Attempts to Remove The Second User's Boat From Slip #3 - 403: invalid user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"403 status code\", function () {\r",
+							"    //Check for 403 response code\r",
+							"    pm.response.to.have.status(403);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_3}}/{{alt_user_boat_id}}}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_3}}",
+						"{{alt_user_boat_id}}}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm User #1 Was Unsuccessful and Slip #3 Still Contains The Second User's Boat - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for success 200 response code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"confirm current_boat is Second Users Boat\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"current_boat\"]).to.eq(pm.environment.get(\"alt_user_boat_id\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_3}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Slip #1 - 204",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"204 no content\", function () {\r",
+							"    //Check for appropriate 204 code\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_1}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Boat #1 was in Slip #1 but we just deleted Slip #1, Confirm Boat #1 is not in a Slip - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for 200 status code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"confirm slip is null\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"slip\"]).to.eq(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/boats/{{boat_id_1}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{boat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Boat #2- 204",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"204 no content\", function () {\r",
+							"    //Check for appropriate 204 code\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/boats/{{boat_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{boat_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Slip #2 is Empty After Deleting Boat #2 - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for success 200 response code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response format is JSON\", function() {\r",
+							"    //Check if the response content is JSON format\r",
+							"    pm.response.to.have.header(\"Content-Type\")\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"slip is empty\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"current_boat\"]).to.eq(null);\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "The Second User Removes Their Boat from Slip #3 - 204",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"204 status code\", function () {\r",
+							"    //Check for 204 response code\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{alt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_3}}/{{alt_user_boat_id}}}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_3}}",
+						"{{alt_user_boat_id}}}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Slip #3 is Empty After Removing Boat - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for success 200 response code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response format is JSON\", function() {\r",
+							"    //Check if the response content is JSON format\r",
+							"    pm.response.to.have.header(\"Content-Type\")\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"slip is empty\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"current_boat\"]).to.eq(null);\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_3}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Second User's Boat is not in Slip #3 Anymore - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for 200 status code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"confirm slip is null\", function () {\r",
+							"   //Check if the response content is valid and matches the expected values\r",
+							"   pm.expect(pm.response.json()[\"slip\"]).to.eq(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{alt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app-url}}/boats/{{alt_user_boat_id}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{alt_user_boat_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Boat #1 - 204",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"204 no content\", function () {\r",
+							"    //Check for appropriate 204 code\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/boats/{{boat_id_1}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{boat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Slip #2 - 204",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"204 no content\", function () {\r",
+							"    //Check for appropriate 204 code\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_2}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Boat #3 - 204",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"204 no content\", function () {\r",
+							"    //Check for appropriate 204 code\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/boats/{{boat_id_3}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{boat_id_3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Slip #3 - 204",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"204 no content\", function () {\r",
+							"    //Check for appropriate 204 code\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/slips/{{slip_id_3}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"slips",
+						"{{slip_id_3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Second User's Boat is Deleted - 204",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"204 no content\", function () {\r",
+							"    //Check for appropriate 204 code\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{alt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/boats/{{alt_user_boat_id}}",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"boats",
+						"{{alt_user_boat_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm /users endpoint exists and works - 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    //Check for 200 status code\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app-url}}/users",
+					"host": [
+						"{{app-url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

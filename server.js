@@ -555,6 +555,21 @@ router.patch('/slips/:slip_id', function (req, res) {
     }}
 );
 
+router.patch('/slips', function (req, res) {
+    res.set('Accept', 'GET, POST');
+    res.status(405).end();
+});
+
+router.put('/slips', function (req, res) {
+    res.set('Accept', 'GET, POST');
+    res.status(405).end();
+});
+
+router.delete('/slips', function (req, res) {
+    res.set('Accept', 'GET, POST');
+    res.status(405).end();
+});
+
 router.delete('/slips/:slip_id', function (req, res) {
     get_slip(req.params.slip_id)
     .then(slip => {
