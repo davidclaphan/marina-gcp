@@ -310,7 +310,7 @@ router.put('/boats/:boat_id', checkJwt, function (req, res) {
             } else if (req.body.name === undefined || req.body.type == undefined || req.body.length === undefined) {
                 res.status(400).json({ 'Error': 'The request object is missing at least one of the required attributes, to update individual attributes use PATCH' });
             } else if (typeof(req.body.name) !== 'string' || typeof(req.body.type) !== 'string' || typeof(req.body.length) !== 'number') {
-                res.status(400).json({ 'Error': 'Data in request object incorrect type. Expected {"name": string, "type": string, "length": number'});
+                res.status(400).json({ 'Error': 'Data in request object incorrect type. Expected {"name": string, "type": string, "length": number}'});
             } else if (boat[0] === undefined || boat[0] === null) {
                 res.status(404).json({ 'Error': 'No boat with this boat_id exists' });
             } else if (boat[0].owner !== req.user.sub) {
