@@ -429,12 +429,11 @@ router.delete('/boats/:boat_id', checkJwt, function(req, res) {
 });
 
 router.post('/slips', function (req, res) {
-    if (req.body.number === undefined || req.body.length === undefined || req.body.premium === undefined) {
-        res.status(400).json({ 'Error': 'The request object is missing at least one of the required attributes' }).end();
-    } 
     const accepts = req.accepts('application/json')
     if (accepts !== 'application/json') {
         res.status(406).send('MIME Not Acceptable, application/json only')
+    } else if (req.body.number === undefined || req.body.length === undefined || req.body.premium === undefined) {
+        res.status(400).json({ 'Error': 'The request object is missing at least one of the required attributes' }).end();
     } else {
         post_slip(req.body.number, req.body.current_boat, req.body.length, req.body.premium)
         .then(key => { 
