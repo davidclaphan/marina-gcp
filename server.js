@@ -621,6 +621,9 @@ router.put('/slips/:slip_id/:boat_id', checkJwt, function (req, res) {
 
 // Boat Departs a Slip
 router.delete('/slips/:slip_id/:boat_id', checkJwt, function (req, res) {
+    if (req.user === undefined) {
+        res.status(401).json({'Error': 'missing or invalid JWT'})
+    }
     get_boat(req.params.boat_id)
     .then(boat => {
         if (boat[0] === undefined || boat[0] === null) {
