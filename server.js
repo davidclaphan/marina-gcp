@@ -218,6 +218,36 @@ router.get('/boats', checkJwt, function(req, res){
     }
 });
 
+router.get('/boats/:boat_id', checkJwt, function(req, res){
+    if (req.user === undefined) {
+        res.status(401).json({'Error': 'missing or invalid JWT'})
+    } 
+    const accepts = req.accepts('application/json')
+    if (accepts !== 'application/json') {
+        res.status(406).send('MIME Not Acceptable, application/json only')
+    } else {
+        get_boat(req.params.boat_id)
+        .then( boat => {
+            if (boat[0] === undefined || boat[0] === null) {
+                res.status(404).json({ 'Error': 'No boat with this boat_id exists' });
+            } else if (boat[0].owner !== req.user.sub) {
+                res.status(403).json({'Error': 'This boat_id is owned by a different user'});
+            } else {
+                const boat_res = {
+                    id: parseInt(req.params.boat_id),
+                    name: boat[0].name,
+                    type: boat[0].type,
+                    length: boat[0].length,
+                    owner: req.user.sub,
+                    slip: boat[0].slip,
+                    self: req.protocol + "://" + req.get("host") + "/boats/" + parseInt(req.params.boat_id)
+                }
+                res.status(200).json(boat_res).end();
+            }
+        });
+    }
+});
+
 router.post('/boats', checkJwt, function(req, res){
     if (req.user === undefined) {
         res.status(401).json({'Error': 'missing or invalid JWT'})
@@ -546,6 +576,9 @@ router.delete('/slips/:slip_id', function (req, res) {
 
 // Boat Arrives at a Slip
 router.put('/slips/:slip_id/:boat_id', checkJwt, function (req, res) {
+    if (req.user === undefined) {
+        res.status(401).json({'Error': 'missing or invalid JWT'})
+    }
     get_slip(req.params.slip_id)
     .then(slip => {
         if (slip[0] === undefined || slip[0] === null) {
