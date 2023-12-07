@@ -207,6 +207,39 @@ app.get('/users', function(req, res){
 
 
 /* ------------- Begin Controller Functions ------------- */
+router.post('/boats', checkJwt, function(req, res){
+    if (req.user === undefined) {
+        res.status(401).json({'Error': 'missing or invalid JWT'})
+    } else if (req.body.name === undefined || req.body.type == undefined || req.body.length === undefined) {
+        res.status(400).json({ 'Error': 'The request object is missing at least one of the required attributes' })
+    } else {
+        get_boat_names()
+        .then(boat_names => {
+            const accepts = req.accepts('application/json')
+            if (accepts !== 'application/json') {
+                res.status(406).send('MIME Not Acceptable, application/json only')
+            } else if (boat_names.includes(req.body.name.toLowerCase())) {
+                res.status(403).json({ 'Error': 'Boat with this name already exists' }).end();
+            } else {
+                post_boat(req.body.name, req.body.type, req.body.length, req.user.sub)
+                .then( key => {
+                    const boat_res = {
+                        id: parseInt(key.id),
+                        name: req.body.name,
+                        type: req.body.type,
+                        length: req.body.length,
+                        owner: req.user.sub,
+                        slip: null,
+                        self: req.protocol + "://" + req.get("host") + "/boats/" + parseInt(key.id)
+                    }
+                    res.location(req.protocol + "://" + req.get('host') + req.baseUrl + '/' + key.id);
+                    res.status(201).json(boat_res);
+                } );
+            }
+        });
+    }
+});
+
 router.get('/boats', checkJwt, function(req, res){
     if (req.user === undefined) {
         res.status(401).json({'Error': 'missing or invalid JWT'})
@@ -243,39 +276,6 @@ router.get('/boats/:boat_id', checkJwt, function(req, res){
                     self: req.protocol + "://" + req.get("host") + "/boats/" + parseInt(req.params.boat_id)
                 }
                 res.status(200).json(boat_res).end();
-            }
-        });
-    }
-});
-
-router.post('/boats', checkJwt, function(req, res){
-    if (req.user === undefined) {
-        res.status(401).json({'Error': 'missing or invalid JWT'})
-    } else if (req.body.name === undefined || req.body.type == undefined || req.body.length === undefined) {
-        res.status(400).json({ 'Error': 'The request object is missing at least one of the required attributes' })
-    } else {
-        get_boat_names()
-        .then(boat_names => {
-            const accepts = req.accepts('application/json')
-            if (accepts !== 'application/json') {
-                res.status(406).send('MIME Not Acceptable, application/json only')
-            } else if (boat_names.includes(req.body.name.toLowerCase())) {
-                res.status(403).json({ 'Error': 'Boat with this name already exists' }).end();
-            } else {
-                post_boat(req.body.name, req.body.type, req.body.length, req.user.sub)
-                .then( key => {
-                    const boat_res = {
-                        id: parseInt(key.id),
-                        name: req.body.name,
-                        type: req.body.type,
-                        length: req.body.length,
-                        owner: req.user.sub,
-                        slip: null,
-                        self: req.protocol + "://" + req.get("host") + "/boats/" + parseInt(key.id)
-                    }
-                    res.location(req.protocol + "://" + req.get('host') + req.baseUrl + '/' + key.id);
-                    res.status(201).json(boat_res);
-                } );
             }
         });
     }
