@@ -283,6 +283,8 @@ router.put('/boats/:boat_id', checkJwt, function (req, res) {
                 res.status(400).json({ 'Error': 'Data in request object incorrect type. Expected {"name": string, "type": string, "length": number'});
             } else if (boat[0] === undefined || boat[0] === null) {
                 res.status(404).json({ 'Error': 'No boat with this boat_id exists' });
+            } else if (boat[0].owner !== req.user.sub) {
+                res.status(403).json({'Error': 'This boat_id is owned by a different user'});
             } else {
                 get_boat_names()
                 .then(boat_names => {
@@ -321,6 +323,8 @@ router.patch('/boats/:boat_id', checkJwt, function (req, res) {
                 res.status(415).json({ 'Error': 'The request object must be JSON format' })
             } else if (boat[0] === undefined || boat[0] === null) {
                 res.status(404).json({ 'Error': 'No boat with this boat_id exists' });
+            } else if (boat[0].owner !== req.user.sub) {
+                res.status(403).json({'Error': 'This boat_id is owned by a different user'});
             } else {
                 get_boat_names()
                 .then(boat_names => {
@@ -541,7 +545,7 @@ router.delete('/slips/:slip_id', function (req, res) {
 });
 
 // Boat Arrives at a Slip
-router.put('/slips/:slip_id/:boat_id', function (req, res) {
+router.put('/slips/:slip_id/:boat_id', checkJwt, function (req, res) {
     get_slip(req.params.slip_id)
     .then(slip => {
         if (slip[0] === undefined || slip[0] === null) {
@@ -551,6 +555,8 @@ router.put('/slips/:slip_id/:boat_id', function (req, res) {
             .then(boat => {
                 if (boat[0] === undefined || boat[0] === null) {
                     res.status(404).json({ 'Error': 'No boat with this boat_id exists' }); 
+                } else if (boat[0].owner !== req.user.sub) {
+                    res.status(403).json({'Error': 'This boat_id is owned by a different user'});
                 } else if (slip[0].current_boat !== null) {
                     res.status(403).json({ 'Error': 'The slip is not empty'});
                 } else if (slip[0].length < boat[0].length) {
@@ -566,11 +572,13 @@ router.put('/slips/:slip_id/:boat_id', function (req, res) {
 });
 
 // Boat Departs a Slip
-router.delete('/slips/:slip_id/:boat_id', function (req, res) {
+router.delete('/slips/:slip_id/:boat_id', checkJwt, function (req, res) {
     get_boat(req.params.boat_id)
     .then(boat => {
         if (boat[0] === undefined || boat[0] === null) {
             res.status(404).json({ 'Error': 'No boat with this boat_id exists' });
+        } else if (boat[0].owner !== req.user.sub) {
+            res.status(403).json({'Error': 'This boat_id is owned by a different user'});
         } else {
             get_slip(req.params.slip_id)
             .then(slip => {
